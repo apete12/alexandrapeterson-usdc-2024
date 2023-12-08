@@ -45,6 +45,33 @@
         "Results": []
     };
 
+    // Reassign SearchTerm to searchTerm 
+    result.SearchTerm = searchTerm
+
+    // Iterate through parent array scannedTextObj to access each title/book object
+    scannedTextObj.forEach((book) => {
+        // console.log('book', book)
+        // console.log('book content', book.Content)
+
+        // Access the Content array of objects, iterate through to access each object
+        book.Content.forEach((scannedText) => {
+            // console.log('scannedText', scannedText)
+
+            // Check each Text submission for the searched term
+            if (scannedText.Text.includes(searchTerm)) {
+                // console.log('success')
+
+                // Create object with required details, push into result.Results array
+                result.Results.push({
+                    "ISBN": book.ISBN,
+                    "Page": scannedText.Page,
+                    "Line": scannedText.Line
+                })
+            }
+        })
+    })
+
+    console.log(result)
     return result; 
 }
 
