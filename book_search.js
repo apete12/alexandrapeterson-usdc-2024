@@ -18,6 +18,24 @@
  * @param {JSON} scannedTextObj - A JSON object representing the scanned text.
  * @returns {JSON} - Search results.
  * */ 
+
+
+// PSEUDOCODE:
+
+// Data:
+    // scannedTextObject is an array of objects
+    // data needed from scannedTextObj: ISBN, Page, and Text for each Content object that is a positive search result
+    // Content key/value pair: array of objects
+
+// Strategy: 
+    // iterate through parent array, access Content array of objects
+    // iterate through Content array, access Content.Text
+    // conditional: if Content.Text includes searchTerm, push requested data to result.Results array
+
+// Note: 
+    // For positive search, object pushed to result.Results should include ISBN, Page, and Text --> construct new object
+
+
  function findSearchTermInBooks(searchTerm, scannedTextObj) {
     /** You will need to implement your search and 
      * return the appropriate object here. */
@@ -26,7 +44,7 @@
         "SearchTerm": "",
         "Results": []
     };
-    
+
     return result; 
 }
 
