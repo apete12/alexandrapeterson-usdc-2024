@@ -22,19 +22,37 @@
 
 // PSEUDOCODE:
 
-// Data:
-    // scannedTextObject is an array of objects
-    // data needed from scannedTextObj: ISBN, Page, and Text for each Content object that is a positive search result
-    // Content key/value pair: array of objects
+// Function:
+    // Data:
+        // scannedTextObject is an array of objects
+        // data needed from scannedTextObj: ISBN, Page, and Text for each Content object that is a positive search result
+        // Content key/value pair: array of objects
 
-// Strategy: 
-    // iterate through parent array, access Content array of objects
-    // iterate through Content array, access Content.Text
-    // conditional: if Content.Text includes searchTerm, push requested data to result.Results array
+    // Strategy: 
+        // iterate through parent array, access Content array of objects
+        // iterate through Content array, access Content.Text
+        // conditional: if Content.Text includes searchTerm, push requested data to result.Results array
 
-// Note: 
-    // For positive search, object pushed to result.Results should include ISBN, Page, and Text --> construct new object
+    // Note: 
+        // For positive search, object pushed to result.Results should include ISBN, Page, and Text --> construct new object
 
+// Unit Tests:
+    // Positive Tests:
+        // Known input, known output (test provided)
+        // Right number of results (test provided)
+        // Expanded books data set with positive search - does function push multiple books to results array?
+
+    // Negative Tests:
+        // If searchTerm is null or undefined
+        // If scannedTextObj is null or undefined
+        // searchTerm that is multiple words
+        // Expanded books data set with negative search - does function push anything to results array?
+
+    // Case Sensitive: 
+        // If searchedTerm has different cases
+
+    // Edge Cases to Consider:
+        // searchTerm that is multiple words
 
  function findSearchTermInBooks(searchTerm, scannedTextObj) {
     /** You will need to implement your search and 
@@ -127,6 +145,7 @@ const twentyLeaguesOut = {
  * 
  * Please add your unit tests below.
  * */
+
 
 /** We can check that, given a known input, we get a known output. */
 const test1result = findSearchTermInBooks("the", twentyLeaguesIn);
