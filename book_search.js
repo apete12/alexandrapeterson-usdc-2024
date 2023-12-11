@@ -36,23 +36,26 @@
     // Note: 
         // For positive search, object pushed to result.Results should include ISBN, Page, and Text --> construct new object
 
+// // // // // // // // // // // // // // // // // // // 
+
 // Unit Tests:
     // Positive Tests:
         // Known input, known output (test provided)
         // Right number of results (test provided)
         // Expanded books data set with positive search - does function push multiple books to results array?
+        // Expanded books data set with single positive search results
+        // Substring match: searchTerm is included in Results when it is within another word (i.e. moment returns positive due to 'momentum')
 
     // Negative Tests:
         // If searchTerm is null or undefined
         // If scannedTextObj is null or undefined
-        // searchTerm that is multiple words
         // Expanded books data set with negative search - does function push anything to results array?
 
     // Case Sensitive: 
-        // If searchedTerm has different cases
+        // If searchedTerm has different cases, returns unsuccessful search result
 
     // Edge Cases to Consider:
-        // searchTerm that is multiple words
+        // searchTerm that is multiple words, or different data type other than string
 
  function findSearchTermInBooks(searchTerm, scannedTextObj) {
     /** You will need to implement your search and 
@@ -66,30 +69,34 @@
     // Reassign SearchTerm to searchTerm 
     result.SearchTerm = searchTerm
 
-    // Iterate through parent array scannedTextObj to access each title/book object
-    scannedTextObj.forEach((book) => {
-        // console.log('book', book)
-        // console.log('book content', book.Content)
+    // Check if searchTerm and scannedTextObj are not null
 
-        // Access the Content array of objects, iterate through to access each object
-        book.Content.forEach((scannedText) => {
-            // console.log('scannedText', scannedText)
+    if (searchTerm != null && scannedTextObj != null) {
+        // Iterate through parent array scannedTextObj to access each title/book object
+        scannedTextObj.forEach((book) => {
+            // console.log('book', book)
+            // console.log('book content', book.Content)
 
-            // Check each Text submission for the searched term
-            if (scannedText.Text.includes(searchTerm)) {
-                // console.log('success')
+            // Access the Content array of objects, iterate through to access each object
+            book.Content.forEach((scannedText) => {
+                // console.log('scannedText', scannedText)
 
-                // Create object with required details, push into result.Results array
-                result.Results.push({
-                    "ISBN": book.ISBN,
-                    "Page": scannedText.Page,
-                    "Line": scannedText.Line
-                })
-            }
+                // Check each Text submission for the searched term
+                if (scannedText.Text.includes(searchTerm)) {
+                    // console.log('success')
+
+                    // Create object with required details, push into result.Results array
+                    result.Results.push({
+                        "ISBN": book.ISBN,
+                        "Page": scannedText.Page,
+                        "Line": scannedText.Line
+                    })
+                }
+            })
         })
-    })
 
-    console.log(result)
+    }
+    // console.log(result)
     return result; 
 }
 
@@ -130,6 +137,117 @@ const twentyLeaguesOut = {
     ]
 }
 
+// Test 3 Expected Output 
+const nullSearchTerm = {
+    "SearchTerm": null,
+    "Results": []
+}
+
+// Test 4 Expected Output 
+const nullScannedTextObj = {
+    "SearchTerm": "the",
+    "Results": []
+}
+
+// Test 5 Expected Output 
+const caseSensitiveSearch = {
+    "SearchTerm": "MomEntUm",
+    "Results": []
+}
+
+// Test 6 Expected Output 
+const partialSearchTerm = {
+    "SearchTerm": "moment",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 8
+        }
+    ]
+}
+
+// Test 7 Input
+const expandedBookList = [
+    {
+        "Title": "Twenty Thousand Leagues Under the Sea",
+        "ISBN": "9780000528531",
+        "Content": [
+            {
+                "Page": 31,
+                "Line": 8,
+                "Text": "now simply went on by her own momentum.  The dark-"
+            },
+            {
+                "Page": 31,
+                "Line": 9,
+                "Text": "ness was then profound; and however good the Canadian\'s"
+            },
+            {
+                "Page": 31,
+                "Line": 10,
+                "Text": "eyes were, I asked myself how he had managed to see, and"
+            } 
+        ] 
+    },
+    {
+        "Title": "The Midnight Library",
+        "ISBN": "9780000000000",
+        "Content": [
+            {
+                "Page": 32,
+                "Line": 12,
+                "Text": "Never underestimate the big importance of small things"
+            },
+            {
+                "Page": 90,
+                "Line": 12,
+                "Text": "There is no rejection, there is only redirection."
+            }
+        ] 
+    }
+]
+
+// Test 7 Expected Output
+const expandedSuccessfulResults = {
+    "SearchTerm": "small",
+    "Results": [
+        {
+            "ISBN": "9780000000000",
+            "Page": 32,
+            "Line": 12
+        }
+    ]
+}
+
+// Test 8 Expected Output
+const expandedUnsuccessfulResults = {
+    "SearchTerm": "unsuccessful",
+    "Results": []
+}
+
+// Test 9 Expected Output
+const multipleSuccessfulResults = {
+    "SearchTerm": "the",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 9
+        },
+        {
+            "ISBN": "9780000000000",
+            "Page": 32,
+            "Line": 12
+        },
+        {
+            "ISBN": "9780000000000",
+            "Page": 90,
+            "Line": 12
+        }
+    ]
+}
+
 /*
  _   _ _   _ ___ _____   _____ _____ ____ _____ ____  
 | | | | \ | |_ _|_   _| |_   _| ____/ ___|_   _/ ___| 
@@ -165,4 +283,74 @@ if (test2result.Results.length == 1) {
     console.log("FAIL: Test 2");
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
+}
+
+// Test 3: Should return results object with empty Results array when searchTerm is null 
+const test3result = findSearchTermInBooks(null, twentyLeaguesIn); 
+if (JSON.stringify(test3result) === JSON.stringify(nullSearchTerm)) {
+    console.log("PASS: Test 3");
+} else {
+    console.log("FAIL: Test 3");
+    console.log("Expected:", nullSearchTerm);
+    console.log("Received:", test3result);
+}
+
+// Test 4: Should return results object with empty Results array when scannedTextObj is null, searchTerm should equal "the"
+const test4result = findSearchTermInBooks("the", null); 
+if (JSON.stringify(test4result) === JSON.stringify(nullScannedTextObj)) {
+    console.log("PASS: Test 4");
+} else {
+    console.log("FAIL: Test 4");
+    console.log("Expected:", nullScannedTextObj);
+    console.log("Received:", test4result);
+}
+
+// Test 5: Case Sensitive - Should return results object with empty Results array when searchTerm cases do not have match
+const test5result = findSearchTermInBooks("MomEntUm", twentyLeaguesIn); 
+if (JSON.stringify(test5result) === JSON.stringify(caseSensitiveSearch)) {
+    console.log("PASS: Test 5");
+} else {
+    console.log("FAIL: Test 5");
+    console.log("Expected:", caseSensitiveSearch);
+    console.log("Received:", test5result);
+}
+
+// Test 6: Should return successful search results for substring match
+const test6result = findSearchTermInBooks("moment", twentyLeaguesIn); 
+if (JSON.stringify(test6result) === JSON.stringify(partialSearchTerm)) {
+    console.log("PASS: Test 6");
+} else {
+    console.log("FAIL: Test 6");
+    console.log("Expected:", partialSearchTerm);
+    console.log("Received:", test6result);
+}
+
+// Test 7: Should return successful search results when given expanded book list 
+const test7result = findSearchTermInBooks("small", expandedBookList); 
+if (JSON.stringify(test7result) === JSON.stringify(expandedSuccessfulResults)) {
+    console.log("PASS: Test 7");
+} else {
+    console.log("FAIL: Test 7");
+    console.log("Expected:", expandedSuccessfulResults);
+    console.log("Received:", test7result);
+}
+
+// Test 8: Should return unsuccessful search results when given expanded book list 
+const test8result = findSearchTermInBooks("unsuccessful", expandedBookList); 
+if (JSON.stringify(test8result) === JSON.stringify(expandedUnsuccessfulResults)) {
+    console.log("PASS: Test 8");
+} else {
+    console.log("FAIL: Test 8");
+    console.log("Expected:", expandedUnsuccessfulResults);
+    console.log("Received:", test8result);
+}
+
+// Test 9: Should return array of successful search results when given expanded book list
+const test9result = findSearchTermInBooks("the", expandedBookList); 
+if (JSON.stringify(test9result) === JSON.stringify(multipleSuccessfulResults)) {
+    console.log("PASS: Test 9");
+} else {
+    console.log("FAIL: Test 9");
+    console.log("Expected:", multipleSuccessfulResults);
+    console.log("Received:", test9result);
 }
