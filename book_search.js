@@ -90,9 +90,12 @@
                 }
             })
         })
+        return result; 
 
+        // If either searchTerm or scannedTextObj are null, return error message
+    } else {
+        return 'Error: invalid search.'
     }
-    return result; 
 }
 
 /** Example input object. */
@@ -104,7 +107,7 @@ const twentyLeaguesIn = [
             {
                 "Page": 31,
                 "Line": 8,
-                "Text": "now simply went on by her own momentum.  The dark-"
+                "Text": "now simply went on by her own momentum.  The dark-moment"
             },
             {
                 "Page": 31,
@@ -130,18 +133,6 @@ const twentyLeaguesOut = {
             "Line": 9
         }
     ]
-}
-
-// Test 3 Expected Output 
-const nullSearchTerm = {
-    "SearchTerm": null,
-    "Results": []
-}
-
-// Test 4 Expected Output 
-const nullScannedTextObj = {
-    "SearchTerm": "the",
-    "Results": []
 }
 
 // Test 5 Expected Output 
@@ -282,21 +273,21 @@ if (test2result.Results.length == 1) {
 
 // Test 3: Should return results object with empty Results array when searchTerm is null 
 const test3result = findSearchTermInBooks(null, twentyLeaguesIn); 
-if (JSON.stringify(test3result) === JSON.stringify(nullSearchTerm)) {
+if (test3result === 'Error: invalid search.') {
     console.log("PASS: Test 3");
 } else {
     console.log("FAIL: Test 3");
-    console.log("Expected:", nullSearchTerm);
+    console.log("Expected:", 'Error: invalid search.');
     console.log("Received:", test3result);
 }
 
 // Test 4: Should return results object with empty Results array when scannedTextObj is null, searchTerm should equal "the"
 const test4result = findSearchTermInBooks("the", null); 
-if (JSON.stringify(test4result) === JSON.stringify(nullScannedTextObj)) {
+if (test4result === 'Error: invalid search.') {
     console.log("PASS: Test 4");
 } else {
     console.log("FAIL: Test 4");
-    console.log("Expected:", nullScannedTextObj);
+    console.log("Expected:", 'Error: invalid search.');
     console.log("Received:", test4result);
 }
 
