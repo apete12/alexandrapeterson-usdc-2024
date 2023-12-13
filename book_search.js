@@ -70,7 +70,7 @@
     result.SearchTerm = searchTerm
 
     // Check if searchTerm and scannedTextObj are not null
-    if (searchTerm != null && scannedTextObj != null) {
+    if (searchTerm !== null && scannedTextObj !== null) {
 
         // Iterate through parent array scannedTextObj to access each title/book object
         scannedTextObj.forEach((book) => {
@@ -90,7 +90,7 @@
                 }
             })
         })
-        return result; 
+        return result
 
         // If either searchTerm or scannedTextObj are null, return error message
     } else {
@@ -271,7 +271,7 @@ if (test2result.Results.length == 1) {
     console.log("Received:", test2result.Results.length);
 }
 
-// Test 3: Should return results object with empty Results array when searchTerm is null 
+// Test 3: Negative - Should return error message if searchTerm is null 
 const test3result = findSearchTermInBooks(null, twentyLeaguesIn); 
 if (test3result === 'Error: invalid search.') {
     console.log("PASS: Test 3");
@@ -281,7 +281,7 @@ if (test3result === 'Error: invalid search.') {
     console.log("Received:", test3result);
 }
 
-// Test 4: Should return results object with empty Results array when scannedTextObj is null, searchTerm should equal "the"
+// Test 4: Negative - Should return error message if scannedTextObj is null
 const test4result = findSearchTermInBooks("the", null); 
 if (test4result === 'Error: invalid search.') {
     console.log("PASS: Test 4");
@@ -301,7 +301,7 @@ if (JSON.stringify(test5result) === JSON.stringify(caseSensitiveSearch)) {
     console.log("Received:", test5result);
 }
 
-// Test 6: Should return successful search results for substring match
+// Test 6: Positive - Should return successful search results for substring match
 const test6result = findSearchTermInBooks("moment", twentyLeaguesIn); 
 if (JSON.stringify(test6result) === JSON.stringify(partialSearchTerm)) {
     console.log("PASS: Test 6");
@@ -311,7 +311,7 @@ if (JSON.stringify(test6result) === JSON.stringify(partialSearchTerm)) {
     console.log("Received:", test6result);
 }
 
-// Test 7: Should return successful search results when given expanded book list 
+// Test 7: Positive - Should return successful search results when given expanded book list 
 const test7result = findSearchTermInBooks("small", expandedBookList); 
 if (JSON.stringify(test7result) === JSON.stringify(expandedSuccessfulResults)) {
     console.log("PASS: Test 7");
@@ -321,7 +321,7 @@ if (JSON.stringify(test7result) === JSON.stringify(expandedSuccessfulResults)) {
     console.log("Received:", test7result);
 }
 
-// Test 8: Should return unsuccessful search results when given expanded book list 
+// Test 8: Negative - Should return unsuccessful search results when given expanded book list 
 const test8result = findSearchTermInBooks("unsuccessful", expandedBookList); 
 if (JSON.stringify(test8result) === JSON.stringify(expandedUnsuccessfulResults)) {
     console.log("PASS: Test 8");
@@ -331,7 +331,7 @@ if (JSON.stringify(test8result) === JSON.stringify(expandedUnsuccessfulResults))
     console.log("Received:", test8result);
 }
 
-// Test 9: Should return array of successful search results when given expanded book list
+// Test 9: Positive - Should return array of multiple successful search results when given expanded book list
 const test9result = findSearchTermInBooks("the", expandedBookList); 
 if (JSON.stringify(test9result) === JSON.stringify(multipleSuccessfulResults)) {
     console.log("PASS: Test 9");
